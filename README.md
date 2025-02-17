@@ -6,25 +6,27 @@ A Ruby gem for validating CSV files with customizable rules and formatting check
 
 Add this line to your application's Gemfile:
 
+```
 gem 'csv_validator'
+```
 
 And then execute:
-
+```
 $ bundle install
-
+```
 Or install it directly:
-
+```
 $ gem install csv_validator
-
+```
 ## Usage
 
 ### Basic Validation
-
+```
 validator = CSVValidator.new('path/to/file.csv')
 result = validator.validate
-
+```
 ### Custom Validation Rules
-
+```
 validator = CSVValidator.new('path/to/file.csv') do |config|
   # Ensure specific columns exist
   config.required_headers = ['name', 'email', 'phone']
@@ -37,7 +39,7 @@ validator = CSVValidator.new('path/to/file.csv') do |config|
   # Set maximum file size (in bytes)
   config.max_file_size = 5_000_000
 end
-
+```
 ### Validation Options
 
 - `skip_empty_rows`: Ignore empty rows during validation
@@ -45,15 +47,15 @@ end
 - `allow_extra_columns`: Allow additional columns not specified in required_headers
 
 Example usage with options:
-
+```
 validator = CSVValidator.new('path/to/file.csv', 
   skip_empty_rows: true,
   strict_headers: false,
   allow_extra_columns: true
 )
-
+```
 ### Handling Results
-
+```
 result = validator.validate
 
 if result.valid?
@@ -64,11 +66,11 @@ else
     puts "Row #{error.row_number}: #{error.message}"
   end
 end
-
+```
 ### Example Query Hash Structure
 
 You can define validation rules using a query hash structure:
-
+```
 query_hash = {
   headers: {
     required: ['name', 'email', 'age'],
@@ -104,7 +106,7 @@ query_hash = {
 }
 
 validator = CSVValidator.new('path/to/file.csv', query_hash)
-
+```
 ## Contributing
 
 1. Fork it
