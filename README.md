@@ -124,6 +124,29 @@ You can define validation rules using a query hash structure:
 
 validator = CSVValidator.new('path/to/file.csv', query_hash)
 ```
+
+result:
+```
+{
+	"result": [
+		{
+			"id": 1,
+			"title": "Iphone 16",
+			"category": "携帯",
+			"email": "duc@mfv.com",
+			"phone": "0932676897",
+			"date_created": "2025-02-17",
+			"quantity": 1
+		}
+	],
+	"errors": [
+		{
+			"row": 2,
+			"msg": "量 not valid"
+		}
+	]
+}
+```
 ## Contributing
 
 1. Fork it
