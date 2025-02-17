@@ -68,42 +68,59 @@ else
 end
 ```
 ### Example Query Hash Structure
-
+```
+Sample csv content
+ID,タイトル,カテゴリ,メール,電話,作成日,量
+1,Iphone 16,携帯,duc@mfv.com,0932676897,2025-02-17,1
+2,Iphone 16 pro,携帯,duc@mfv.com,0932676897,2025-02-17,15
+```
 You can define validation rules using a query hash structure:
 ```
-query_hash = {
-  headers: {
-    required: ['name', 'email', 'age'],
-    optional: ['phone', 'address']
-  },
-  validations: {
-    'name' => {
-      presence: true,
-      format: /^[a-zA-Z\s]{2,50}$/,
-      min_length: 2,
-      max_length: 50
-    },
-    'email' => {
-      presence: true,
-      format: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i,
-      unique: true
-    },
-    'age' => {
-      type: :integer,
-      range: 18..100
-    },
-    'phone' => {
-      format: /^\+?[\d\s-]{10,}$/,
-      allow_blank: true
+{
+      "ID" => {
+        "key" => "id",
+        "valid" => {
+          "required" => true
+        }
+      },
+      "タイトル" => {
+        "key" => "title",
+        "valid" => {
+          "required" => true,
+          "min_length" => 1,
+          "max_length" => 100
+        }
+      },
+      "カテゴリ" => {
+        "key" => "category",
+        "valid" => {
+          "required" => true,
+          "callback" => ->(v) { ['携帯', 'PC'].include?(v) }
+        }
+      },
+      "メール" => {
+        "key" => "email",
+        "valid" => {
+          "email" => true
+        }
+      },
+      "電話" => {
+        "key" => "phone",
+        "valid" => {
+          "phone" => true
+        }
+      },
+      "作成日" => {
+        "key" => "date_created"
+      },
+      "量" => {
+        "key" => "quantity",
+        "valid" => {
+          "min" => 1,
+          "max" => 10
+        }
+      }
     }
-  },
-  options: {
-    skip_empty_rows: true,
-    strict_headers: true,
-    allow_extra_columns: false,
-    max_file_size: 5_000_000 # 5MB
-  }
-}
 
 validator = CSVValidator.new('path/to/file.csv', query_hash)
 ```
